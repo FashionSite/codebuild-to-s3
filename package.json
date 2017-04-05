@@ -1,0 +1,18 @@
+{
+  "name": "deploytos3",
+  "version": "1.0.0",
+  "description": "Deploy a codebuild artifact to S3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Julius Cebreros",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.36.0",
+    "mime-types": "^2.1.15",
+    "s3-upload-stream": "^1.0.7",
+    "unzip": "^0.1.11",
+    "unzipper": "^0.8.8"
+  }
+}
