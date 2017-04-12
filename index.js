@@ -99,7 +99,8 @@ function handler( event, context ) {
                     Bucket: destinationBucket,
                     Key: file,
                     Body: fs.readFileSync(`/tmp/build/${file}`),
-                    ContentType: contentType || 'application/octet-stream'
+                    ContentType: contentType || 'application/octet-stream',
+                    CacheControl: 'max-age=604800'
                 };
 
                 return s3.putObject(options).promise();
