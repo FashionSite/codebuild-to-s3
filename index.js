@@ -1,8 +1,8 @@
 
 const AWS = require( 'aws-sdk' );
-const unzip = require( 'unzipper' );
 const fs = require( 'fs' );
 const mimeTypes = require( 'mime-types' );
+const unzip = require( 'unzipper' );
 
 function handler( event, context ) {
     console.log( 'Starting job...' );
@@ -91,21 +91,19 @@ function handler( event, context ) {
         .promise()
         .then(() => {
             // push to s3 each file
-
             var promises = files.map( ( file ) => {
                 const contentType = mimeTypes.lookup( file );
-
-                var options = {
-                    Bucket: destinationBucket,
-                    Key: file,
-                    Body: fs.readFileSync(`/tmp/build/${file}`),
-                    ContentType: contentType || 'application/octet-stream',
-                    CacheControl: 'max-age=604800'
+                console.log(`file: ${file}`)
+                const options = {
+                  Bucket: destinationBucket,
+                  Key: file,
+                  Body: fs.readFileSync(`/tmp/build/${file}`),
+                  ContentType: contentType || 'application/octet-stream',
+                  CacheControl: file !== 'index.html' ?
+                    'max-age=604800' : 'public, must-revalidate, proxy-revalidate, max-age=0'
                 };
-
                 return s3.putObject(options).promise();
             });
-
             return Promise.all( promises );
         })
         .then( () => {
