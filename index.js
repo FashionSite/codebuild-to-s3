@@ -100,7 +100,8 @@ function handler( event, context ) {
                   Body: fs.readFileSync(`/tmp/build/${file}`),
                   ContentType: contentType || 'application/octet-stream',
                   CacheControl: file !== 'index.html' ?
-                    'max-age=604800' : 'public, must-revalidate, proxy-revalidate, max-age=0'
+                    // 'max-age=604800' : 'max-age=0, public, must-revalidate, proxy-revalidate'
+                    'max-age=604800' : 'max-age=1800, must-revalidate, proxy-revalidate'
                 };
                 return s3.putObject(options).promise();
             });
